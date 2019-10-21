@@ -2,15 +2,13 @@ import * as React from 'react';
 import styles from './EventDetails.module.scss';
 import { IEventDetailsProps } from './IEventDetailsProps';
 import * as strings from 'EventDetailsWebPartStrings';
+import { sp, ItemAddResult } from "@pnp/sp";
+import { PopupWindowPosition } from '@microsoft/sp-property-pane';
 
 export default class EventDetails extends React.Component<IEventDetailsProps, {}> {
   
   private eventitems = false;
-
-  private singup(): void {
-    alert('Hamarosan');
-  }
-
+  private registerState = false;
   public render(): React.ReactElement<IEventDetailsProps> {
     let eventTitle;
     let eventLocation;
@@ -18,10 +16,36 @@ export default class EventDetails extends React.Component<IEventDetailsProps, {}
     let eventEnd;
     let self = this;
 
+    if(this.props.registeredItem){
+      self.registerState = true;
+    }
+
     function ics(): void {
       var icsUrl = self.props.pageContext.web.absoluteUrl+'/_vti_bin/owssvr.dll?CS=109&Cmd=Display&List='+self.props.eventlistid+'&CacheControl=1&ID='+self.props.listItem+'&Using=event.ics';
       window.open(icsUrl);
     }
+
+    function deleteItem():void {
+      let list = sp.web.lists.getByTitle("EventRegistration");
+      list.items.getById(self.props.registeredItem.Id).delete().then(_ => {
+        self.registerState = false;
+        location.reload();
+      });
+    }
+
+    function singup():void {
+      sp.web.lists.getByTitle("EventRegistration").items.add({
+        Title: "Title",
+        PersonId: self.props.userID,
+        EventID: self.props.listItem
+      }).then((iar: ItemAddResult) => {
+          //console.info(iar); 
+          self.registerState = true;
+          location.reload();
+      });
+    }
+
+    //console.info(this.props.registeredItem);
 
     if(this.props.listItem){
       this.props.listsItems.forEach(item => {
@@ -61,9 +85,16 @@ export default class EventDetails extends React.Component<IEventDetailsProps, {}
           { this.props.RegisterButtonViewBool || this.props.SaveEventButtonViewBool ?
           <div className={styles.buttonBox}>
             { this.props.RegisterButtonViewBool ?
-            <button className={ styles.button }>
-              <span className={ styles.label }>{strings.SingUp}</span>
-            </button>
+            <span>
+              { self.registerState ?
+                <button className={ styles.button }  onClick={deleteItem}>
+                  <span className={ styles.label }>{strings.UnSubscribe}</span>
+                </button>
+              : <button className={ styles.button }  onClick={singup}>
+                  <span className={ styles.label }>{strings.SingUp}</span>
+                </button>
+              }
+            </span>
             : "" }
             { this.props.SaveEventButtonViewBool ?
             <button className={ styles.button } onClick={ics}>

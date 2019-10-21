@@ -101,11 +101,8 @@ export default class EventDetailsWebPart extends BaseClientSideWebPart<IEventDet
       });
     this._getListData('EventRegistration', true)
       .then((response) => {
-        response.value.forEach(item => {
-          if(item.EventID == this.properties.listItem && item.PersonId == this.userID){
-            this.properties.registeredItem = item;
-          }
-        });
+        //console.info(response.value);
+        this.properties.registeredItem = response.value[0];
       });
     return Promise.resolve();
   }
@@ -113,7 +110,7 @@ export default class EventDetailsWebPart extends BaseClientSideWebPart<IEventDet
   private _getListData(listName: string, query: boolean): Promise<ISPLists> {
     var querySring = '';
     if(query){
-      querySring = '';
+      querySring = 'EventID eq '+this.properties.listItem+' and PersonId eq '+this.context.pageContext.legacyPageContext.userId;
     }
     return this.context.spHttpClient  
     .get(`${this.context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('${listName}')/Items?$filter=${querySring}`,
