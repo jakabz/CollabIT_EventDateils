@@ -28,6 +28,7 @@ export interface IEventDetailsWebPartProps {
   registrationlistid: string;
   userID: string;
   registeredItem: any;
+  context:any;
 }
 
 export interface ISPLists {
@@ -51,7 +52,6 @@ export default class EventDetailsWebPart extends BaseClientSideWebPart<IEventDet
   private _dropdownOptionsItems: IPropertyPaneDropdownOption[] = [];
   private eventlistid = "";
   private registrationlistid = "";
-  private userID = "";
 
   public render(): void {
     const element: React.ReactElement<IEventDetailsProps > = React.createElement(
@@ -66,6 +66,7 @@ export default class EventDetailsWebPart extends BaseClientSideWebPart<IEventDet
         RegisterButtonViewBool: this.properties.RegisterButtonViewBool,
         listsItems: this.listsItems,
         pageContext: this.context.pageContext,
+        context: this.context,
         eventlistid: this.eventlistid,
         registrationlistid: this.registrationlistid,
         userID: this.context.pageContext.legacyPageContext.userId,

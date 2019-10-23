@@ -2,19 +2,73 @@ import * as React from 'react';
 import styles from './EventDetails.module.scss';
 import { IEventDetailsProps } from './IEventDetailsProps';
 import * as strings from 'EventDetailsWebPartStrings';
-import { sp, ItemAddResult } from "@pnp/sp";
-import { PopupWindowPosition } from '@microsoft/sp-property-pane';
+import { HttpClient, IHttpClientOptions, HttpClientResponse } from '@microsoft/sp-http';
 
 export default class EventDetails extends React.Component<IEventDetailsProps, {}> {
   
   private eventitems = false;
   private registerState = false;
+
   public render(): React.ReactElement<IEventDetailsProps> {
     let eventTitle;
     let eventLocation;
     let eventStart;
     let eventEnd;
     let self = this;
+
+    let newReg = function(title,userid,eventid): Promise<HttpClientResponse> {
+      const postURL = 'https://prod-117.westeurope.logic.azure.com:443/workflows/9bc942ec999541e1a9d3293d4d5a20b6/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=RnCYjU9qinlbOk1OhjI3faGu4cxxXEHDwpzH3ZiEAkI';
+      const body: string = JSON.stringify({
+        "eventTitle": title,
+        "userEmail": "eszter.koscsak.admin@QualysoftHolding.onmicrosoft.com",
+        "eventID": eventid
+      });
+      const requestHeaders: Headers = new Headers();
+      requestHeaders.append('Content-type', 'application/json');
+      const httpClientOptions: IHttpClientOptions = {
+        body: body,
+        headers: requestHeaders
+      };
+  
+      console.log("List item creating.");
+  
+      return self.props.context.httpClient.post(
+        postURL,
+        HttpClient.configurations.v1,
+        httpClientOptions)
+        .then((response: Response): Promise<HttpClientResponse> => {
+          console.log("List item created.");
+          console.info(response.json());
+          location.reload();
+          return response.json();
+        });
+    };
+  
+    let delReg = function(regid): Promise<HttpClientResponse> {
+      const postURL = 'https://prod-58.westeurope.logic.azure.com:443/workflows/2c80a7736fe64a60b1d2aaca1df2ba42/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uopoe6zNaUjDA1TWx5MZskqe3XZi6Y1LdBJkqOw8p94';
+      const body: string = JSON.stringify({
+        "eventID": regid
+      });
+      const requestHeaders: Headers = new Headers();
+      requestHeaders.append('Content-type', 'application/json');
+      const httpClientOptions: IHttpClientOptions = {
+        body: body,
+        headers: requestHeaders
+      };
+  
+      console.log("List item deleting.");
+  
+      return self.props.context.httpClient.post(
+        postURL,
+        HttpClient.configurations.v1,
+        httpClientOptions)
+        .then((response: Response): Promise<HttpClientResponse> => {
+          console.log("List item deleted.");
+          console.info(response.json());
+          location.reload();
+          return response.json();
+        });
+    };
 
     if(this.props.registeredItem){
       self.registerState = true;
@@ -26,23 +80,13 @@ export default class EventDetails extends React.Component<IEventDetailsProps, {}
     }
 
     function deleteItem():void {
-      let list = sp.web.lists.getByTitle("EventRegistration");
-      list.items.getById(self.props.registeredItem.Id).delete().then(_ => {
-        self.registerState = false;
-        location.reload();
-      });
+      var msg = delReg(self.props.registeredItem.Id);
+      console.info(msg);
     }
 
     function singup():void {
-      sp.web.lists.getByTitle("EventRegistration").items.add({
-        Title: "Title",
-        PersonId: self.props.userID,
-        EventID: self.props.listItem
-      }).then((iar: ItemAddResult) => {
-          //console.info(iar); 
-          self.registerState = true;
-          location.reload();
-      });
+      var msg = newReg(eventTitle,self.props.userID,self.props.listItem);
+      console.info(msg);
     }
 
     //console.info(this.props.registeredItem);

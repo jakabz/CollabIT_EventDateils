@@ -12,4 +12,5 @@ export interface IEventDetailsProps {
   registrationlistid: string;
   userID: any;
   registeredItem:any;
+  context:any;
 }

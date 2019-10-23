@@ -28,7 +28,8 @@
       "eventlistid": "",
       "registrationlistid": "",
       "userID": "",
-      "registeredItem":""
+      "registeredItem":"",
+      "context":""
     }
   }]
 }
