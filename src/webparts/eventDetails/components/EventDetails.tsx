@@ -147,7 +147,7 @@ export default class EventDetails extends React.Component<IEventDetailsProps, {}
             : "" }
           </div> : ""}
         </div>
-      : <div className={ styles.setWP }>Please setting webpart!</div>}
+      : <div className={ styles.setWP }>Please edit this web part!</div>}
       </div>
     );
   }

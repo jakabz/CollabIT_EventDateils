@@ -1,14 +1,14 @@
 define([], function() {
   return {
     "listItemFieldLabel": "Event title",
-    "TitleViewFieldLabel": "Event title show",
-    "StartViewFieldLabel": "Event start date show",
-    "EndViewFieldLabel": "Event end date show",
+    "TitleViewFieldLabel": "Event title visible",
+    "StartViewFieldLabel": "Start date",
+    "EndViewFieldLabel": "End date",
     "LocationViewFieldLabel": "Event location show",
     "ViewFieldsGroup": "View fields",
-    "RegisterViewFieldLabel": "SignUp button show",
-    "SaveEventViewFieldLabel": "Save Calendar button show",
-    "SingUp": "Sing up",
+    "RegisterViewFieldLabel": "SignUp button",
+    "SaveEventViewFieldLabel": "Save to Calendar button",
+    "SingUp": "Sign up",
     "UnSubscribe": "Unsubscribe",
     "SaveEvent": "Save to calendar"
   }
