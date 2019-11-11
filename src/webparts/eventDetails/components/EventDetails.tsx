@@ -17,10 +17,10 @@ export default class EventDetails extends React.Component<IEventDetailsProps, {}
     let self = this;
 
     let newReg = function(title,userid,eventid): Promise<HttpClientResponse> {
-      const postURL = 'https://prod-117.westeurope.logic.azure.com:443/workflows/9bc942ec999541e1a9d3293d4d5a20b6/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=RnCYjU9qinlbOk1OhjI3faGu4cxxXEHDwpzH3ZiEAkI';
+      const postURL = 'https://prod-26.westeurope.logic.azure.com:443/workflows/5a1b49e8e3414ee09ef8ff73a8f1935a/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5rDqt_1m4rssK2XF2cWZbnadgvmIAXcl5rc-NCILUjU';
       const body: string = JSON.stringify({
         "eventTitle": title,
-        "userEmail": "eszter.koscsak.admin@QualysoftHolding.onmicrosoft.com",
+        "userEmail": self.props.pageContext.user.loginName, //"eszter.koscsak.admin@QualysoftHolding.onmicrosoft.com",
         "eventID": eventid
       });
       const requestHeaders: Headers = new Headers();
@@ -45,7 +45,7 @@ export default class EventDetails extends React.Component<IEventDetailsProps, {}
     };
   
     let delReg = function(regid): Promise<HttpClientResponse> {
-      const postURL = 'https://prod-58.westeurope.logic.azure.com:443/workflows/2c80a7736fe64a60b1d2aaca1df2ba42/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uopoe6zNaUjDA1TWx5MZskqe3XZi6Y1LdBJkqOw8p94';
+      const postURL = 'https://prod-15.westeurope.logic.azure.com:443/workflows/f6e8465e65b44943a72294f045b554ef/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=uoTsVGqwU5_tpSnOTIxXUQxSoEAndvE2f9MmlgrjC_4';
       const body: string = JSON.stringify({
         "eventID": regid
       });
