@@ -112,6 +112,8 @@ export default class EventDetailsWebPart extends BaseClientSideWebPart<IEventDet
     var querySring = '';
     if(query){
       querySring = 'EventID eq '+this.properties.listItem+' and PersonId eq '+this.context.pageContext.legacyPageContext.userId;
+    } else {
+      querySring ="EventPage eq "+location.pathname;
     }
     return this.context.spHttpClient  
     .get(`${this.context.pageContext.web.absoluteUrl}/_api/web/lists/GetByTitle('${listName}')/Items?$filter=${querySring}`,

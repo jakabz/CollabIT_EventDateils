@@ -14,7 +14,7 @@
     "group": { "default": "Other" },
     "title": { "default": "Event Details" },
     "description": { "default": "Event Details description" },
-    "officeFabricIconFontName": "Page",
+    "iconImageUrl": "./img/qs.png",
     "properties": {
       "listItem": "",
       "TitleViewBool": true,
