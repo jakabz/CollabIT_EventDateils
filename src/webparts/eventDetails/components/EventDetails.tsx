@@ -17,7 +17,7 @@ export default class EventDetails extends React.Component<IEventDetailsProps, {}
     let self = this;
 
     let newReg = function(title,userid,eventid): Promise<HttpClientResponse> {
-      const postURL = 'https://prod-26.westeurope.logic.azure.com:443/workflows/5a1b49e8e3414ee09ef8ff73a8f1935a/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5rDqt_1m4rssK2XF2cWZbnadgvmIAXcl5rc-NCILUjU';
+      const postURL = 'https://prod-98.westeurope.logic.azure.com:443/workflows/e28ac1976d924f0c8d942baaf5451f1c/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=cpiulfjoh3wYNECYHt2th-94BJD9A3rzXbiEQ9IH5dU';
       const body: string = JSON.stringify({
         "eventTitle": title,
         "userEmail": self.props.pageContext.user.loginName, //"eszter.koscsak.admin@QualysoftHolding.onmicrosoft.com",

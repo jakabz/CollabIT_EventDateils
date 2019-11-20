@@ -85,7 +85,7 @@ export default class EventDetailsWebPart extends BaseClientSideWebPart<IEventDet
       .then((response) => {
         this.eventlistid = response.Id;
       });
-    this._getlistInfo('EventRegistration')
+    this._getlistInfo('Event Registration')
       .then((response) => {
         this.registrationlistid = response.Id;
       });
@@ -100,7 +100,7 @@ export default class EventDetailsWebPart extends BaseClientSideWebPart<IEventDet
         });
         this.render();
       });
-    this._getListData('EventRegistration', true)
+    this._getListData('Event Registration', true)
       .then((response) => {
         //console.info(response.value);
         this.properties.registeredItem = response.value[0];
